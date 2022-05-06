@@ -5,8 +5,7 @@ import { Switch, Route, Redirect, StaticRouter } from 'react-router-dom'
 
 import store, { history } from '../redux'
 
-import Home from '../components/home'
-import DummyView from '../components/dummy-view'
+import LoginForm from '../components/login'
 import NotFound from '../components/404'
 
 import Startup from './startup'
@@ -21,23 +20,23 @@ const OnlyAnonymousRoute = ({ component: Component, ...rest }) => {
   return <Route {...rest} render={func} />
 }
 
-const PrivateRoute = ({ component: Component, ...rest }) => {
-  const user = useSelector((state) => state.auth.user)
-  const token = useSelector((state) => state.token)
+// const PrivateRoute = ({ component: Component, ...rest }) => {
+//   const user = useSelector((state) => state.auth.user)
+//   const token = useSelector((state) => state.token)
 
-  const func = (props) => {
-    if (!!user && !!user.name && !!token) return <Component {...props} />
+//   const func = (props) => {
+//     if (!!user && !!user.name && !!token) return <Component {...props} />
 
-    return (
-      <Redirect
-        to={{
-          pathname: '/login'
-        }}
-      />
-    )
-  }
-  return <Route {...rest} render={func} />
-}
+//     return (
+//       <Redirect
+//         to={{
+//           pathname: '/login'
+//         }}
+//       />
+//     )
+//   }
+//   return <Route {...rest} render={func} />
+// }
 
 const RouterSelector = (props) =>
   typeof window !== 'undefined' ? <ConnectedRouter {...props} /> : <StaticRouter {...props} />
@@ -48,11 +47,8 @@ const RootComponent = (props) => {
       <RouterSelector history={history} location={props.location} context={props.context}>
         <Startup>
           <Switch>
-            <Route exact path="/" component={DummyView} />
-            <Route exact path="/dashboard" component={Home} />
-            <PrivateRoute exact path="/hidden-route" component={DummyView} />
-            <OnlyAnonymousRoute exact path="/anonymous-route" component={DummyView} />
-
+            <Route exact path="/" component={LoginForm} />
+            <OnlyAnonymousRoute exact path="/anonymous-route" component={LoginForm} />
             <Route component={NotFound} />
           </Switch>
         </Startup>
