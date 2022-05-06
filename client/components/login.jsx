@@ -1,6 +1,10 @@
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { signIn, updateEmailField, updatePasswordField } from '../redux/reducers/auth'
 
 const LoginForm = () => {
+  const dispatch = useDispatch()
+  const { email, password } = useSelector((s) => s.auth)
   return (
     <div className="w-screen h-screen bg-gray-100 flex justify-center items-center">
       <div className=" max-w-xs ">
@@ -13,7 +17,11 @@ const LoginForm = () => {
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="username"
               type="text"
+              value={email}
               placeholder="Username"
+              onChange={(e) => {
+                dispatch(updateEmailField(e.target.value))
+              }}
             />
           </div>
           <div className="mb-6">
@@ -24,7 +32,11 @@ const LoginForm = () => {
               className="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
               id="password"
               type="password"
+              value={password}
               placeholder="******************"
+              onChange={(e) => {
+                dispatch(updatePasswordField(e.target.value))
+              }}
             />
             <p className="text-red-500 text-xs italic">Please choose a password.</p>
           </div>
@@ -32,6 +44,9 @@ const LoginForm = () => {
             <button
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="button"
+              onClick={() => {
+                dispatch(signIn())
+              }}
             >
               Sign In
             </button>

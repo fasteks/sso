@@ -6,10 +6,18 @@ import { renderToStaticNodeStream } from 'react-dom/server'
 import React from 'react'
 
 import cookieParser from 'cookie-parser'
+import passport from 'passport'
 import config from './config'
+import passportJWT from './services/passport'
+import mongooseService from './services/mongoose'
+
 import Html from '../client/html'
 
+import authRoute from './routes/auth'
+
 require('colors')
+
+mongooseService.connect()
 
 let Root
 try {
@@ -26,6 +34,10 @@ const server = express()
 
 const middleware = [
   cors(),
+  // Passport is an authentication middleware for Node that authenticates requests.
+  // So basically passport.initialize() initialises the authentication module.
+  // To use Passport in an Express - configure it with the required middleware
+  passport.initialize(),
   express.static(path.resolve(__dirname, '../dist/assets')),
   express.urlencoded({ limit: '50mb', extended: true, parameterLimit: 50000 }),
   express.json({ limit: '50mb', extended: true }),
@@ -33,6 +45,10 @@ const middleware = [
 ]
 
 middleware.forEach((it) => server.use(it))
+
+passport.use('jwt', passportJWT.jwt)
+
+server.use('/api/v1/auth', authRoute)
 
 server.use('/api/', (req, res) => {
   res.status(404)
