@@ -9,7 +9,7 @@ const HardSourceWebpackPlugin = require('hard-source-webpack-plugin')
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
 const ESLintPlugin = require('eslint-webpack-plugin')
 
-const CLIENT_PORT = 8087
+const CLIENT_PORT = 8081
 const APP_VERSION = 'development'
 const config = {
   stats: {
@@ -51,7 +51,7 @@ const config = {
     proxy: [
       {
         context: ['/api', '/auth', '/ws', '/favicon.ico'],
-        target: 'http://0.0.0.0:8090',
+        target: 'http://0.0.0.0:8080',
         secure: false,
         changeOrigin: true,
         ws: process.env.ENABLE_SOCKETS === 'true'
