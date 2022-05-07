@@ -30,6 +30,13 @@ class ChildClassComponent extends React.Component {
     console.log('state:', prevState)
   }
 
+  // логика условия при котором компонент должен обновиться
+  shouldComponentUpdate(newProps, newState) {
+    console.log('new props:', newProps)
+    console.log('new state:', newState)
+    return newState.clicked % 2 === 0
+  }
+
   render() {
     return (
       <div className="mt-5 p-5 bg-yellow-200">
