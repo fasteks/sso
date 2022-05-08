@@ -4,6 +4,7 @@ import { ConnectedRouter } from 'connected-react-router'
 import { Switch, Route, Redirect, StaticRouter } from 'react-router-dom'
 
 import store, { history } from '../redux'
+import ThemeContext from './context'
 
 import Dummy from '../components/dummy'
 import LoginForm from '../components/login'
@@ -52,14 +53,17 @@ const RootComponent = (props) => {
   return (
     <Provider store={store}>
       <RouterSelector history={history} location={props.location} context={props.context}>
-        <Startup>
-          <Switch>
-            <PrivateRoute exact path="/dummy" component={Dummy} />
-            <Route exact path="/" component={LoginForm} />
-            <OnlyAnonymousRoute exact path="/anonymous-route" component={LoginForm} />
-            <Route component={NotFound} />
-          </Switch>
-        </Startup>
+        {/* eslint-disable-next-line */}
+        <ThemeContext.Provider value={{ color: 'red', theme: 'dark' }}>
+          <Startup>
+            <Switch>
+              <PrivateRoute exact path="/dummy" component={Dummy} />
+              <Route exact path="/" component={LoginForm} />
+              <OnlyAnonymousRoute exact path="/anonymous-route" component={LoginForm} />
+              <Route component={NotFound} />
+            </Switch>
+          </Startup>
+        </ThemeContext.Provider>
       </RouterSelector>
     </Provider>
   )

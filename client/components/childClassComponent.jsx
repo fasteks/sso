@@ -1,4 +1,5 @@
 import React from 'react'
+import ThemeContext from '../config/context'
 
 class ChildClassComponent extends React.Component {
   constructor(props) {
@@ -10,6 +11,7 @@ class ChildClassComponent extends React.Component {
 
     this.clickWindow = this.clickWindow.bind(this)
     this.focusInput = React.createRef()
+    this.displayContext = this.displayContext.bind(this)
   }
 
   // единственный лайфсайкл метод который позволяет пробрасывать стейты и пропс
@@ -33,7 +35,7 @@ class ChildClassComponent extends React.Component {
   componentDidMount() {
     window.addEventListener('click', this.clickWindow)
     console.log('i am alive')
-
+    console.log('context', this.context)
     this.focusInput.current.focus()
   }
 
@@ -56,6 +58,10 @@ class ChildClassComponent extends React.Component {
     return newState.clicked % 2 === 0
   }
 
+  displayContext() {
+    console.log('this.context', JSON.stringify(this.context))
+  }
+
   render() {
     return (
       <div className="mt-5 p-5 bg-yellow-200">
@@ -67,9 +73,17 @@ class ChildClassComponent extends React.Component {
           ref={this.focusInput}
           onChange={this.changeStateAge}
         />
+        <div>
+          <ThemeContext.Consumer>{(value) => JSON.stringify(value)}</ThemeContext.Consumer>
+        </div>
+        <button type="button" onClick={this.displayContext()}>
+          show context
+        </button>
       </div>
     )
   }
 }
+
+ChildClassComponent.contextType = ThemeContext
 
 export default ChildClassComponent
