@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import ChildClassComponent from './childClassComponent'
 
@@ -6,8 +7,8 @@ class InputClass extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      name: 'alewa',
-      toggled: true
+      name: this.props.name,
+      toggled: false
     }
     this.changeStateName = this.changeStateName.bind(this)
     this.changeStateAge = this.changeStateAge.bind(this)
@@ -48,6 +49,14 @@ class InputClass extends React.Component {
       </div>
     )
   }
+}
+
+InputClass.propTypes = {
+  name: PropTypes.string
+}
+
+InputClass.defaultProps = {
+  name: 'Незнакомец'
 }
 
 export default InputClass
